@@ -11,10 +11,6 @@ const Clyptr = props => {
   const { signout } = useContext(AuthContext)
   return (
     <BrowserRouter className="App">
-      {/* <Switch> */}
-      {/* <Route exact path='/signin' component={Signin} /> */}
-      {/* <Auth> */}
-      {/* <Switch> */}
       <header className="App-header">
         <p>
           <Link to='/mypage'>Mypage</Link>
@@ -22,22 +18,21 @@ const Clyptr = props => {
         <h1>clyptr</h1>
         <p onClick={() => signout()}>
           Signout
-              </p>
+        </p>
       </header>
       <main className="App-main">
-        <Route exact path='/' component={Timeline} />
-        <Route exact path='/tour' component={Tour} />
-        <Route exact path='/mypage' component={Mypage} />
-        <Route exact path='/search' component={Search} />
+        <Switch>
+          <Route exact path='/' component={Timeline} />
+          <Route exact path='/tour' component={Tour} />
+          <Route exact path='/mypage' component={Mypage} />
+          <Route exact path='/search' component={Search} />
+        </Switch>
       </main>
       <footer className="App-footer">
         <Link to='/tour'>Tour</Link>
         <Link to='/'>Timeline</Link>
         <Link to='/search'>Search</Link>
       </footer>
-      {/* </Switch> */}
-      {/* </Auth> */}
-      {/* </Switch> */}
     </BrowserRouter>
   )
 }
