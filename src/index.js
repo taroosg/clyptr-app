@@ -23,7 +23,6 @@ ReactDOM.render(
       ]}
     />
     <App />
-    <App />
   </React.StrictMode>,
   document.getElementById('root')
 );

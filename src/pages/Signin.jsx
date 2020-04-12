@@ -19,7 +19,6 @@ const uiConfig = {
 const Signin = props => {
   return (
     <div>
-      {JSON.stringify(firebase.auth.GithubAuthProvider)}
       <p>Please sign-in:</p>
       <StyledFirebaseAuth uiConfig={uiConfig} firebaseAuth={firebase.auth()} />
     </div>
