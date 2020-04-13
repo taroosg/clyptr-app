@@ -16,7 +16,7 @@ const Clyptr = props => {
           <Link to='/mypage'>Mypage</Link>
         </p>
         <h1>clyptr</h1>
-        <p onClick={() => signout()}>
+        <p onClick={() => window.confirm('Sign Out??') ? signout() : false}>
           Signout
         </p>
       </header>

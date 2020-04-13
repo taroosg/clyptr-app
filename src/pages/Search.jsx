@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/auth'
 import axios from 'axios';
+import ItemList from '../components/ItemList';
 
 const Search = () => {
   const value = useContext(AuthContext);
@@ -18,9 +19,9 @@ const Search = () => {
     <div>
       <p>Search</p>
       <p>{value.currentUser.uid}</p>
-      {
-        data && <p>{JSON.stringify(data)}</p>
-      }
+      <ItemList
+        data={data?.data}
+      />
     </div>
   );
 }
