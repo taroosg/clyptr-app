@@ -1,5 +1,22 @@
 import React, { useState } from 'react'
 import { GoogleMap, useLoadScript, Marker, StreetViewPanorama } from '@react-google-maps/api'
+import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+
+import MapIcon from '@material-ui/icons/Map';
+import StreetviewIcon from '@material-ui/icons/Streetview';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
+
 
 const Map = props => {
   const { isLoaded, loadError } = useLoadScript({
@@ -15,10 +32,6 @@ const Map = props => {
     rotateControl: false,
     fullscreenControl: false,
     scaleControl: true,
-    // zoomControlOptions: {
-    //   position: { "lat": 62.92881612345276, "lng": 30.608949216535166 },
-    //   // ...otherOptions
-    // }
   }
 
   const streetViewOptions = {
@@ -28,33 +41,36 @@ const Map = props => {
     linksControl: false,
     panControl: false,
     fullscreenControl: false,
+    // zoomControl: false,
   }
 
-  const [zIndex, setZIndex] = useState(1);
   const [isStreetView, setIsStreetView] = useState(true);
 
   const renderMap = () => {
 
+    const containerStyle = {
+      height: props.height,
+      position: 'relative',
+      display: 'flex',
+      justifyContent: 'center',
+    }
+
     const mapStyle = {
       width: '100vw',
-      height: '70vh',
+      height: '100%',
     };
 
     const buttonStyle = {
-      width: '50vw',
-      height: '10vh',
+      position: 'absolute',
+      bottom: '5%',
+      zIndex: 100,
     }
-    // const onLoad = useCallback(
-    //    mapInstance=> {
-    //     // do something with map Instance
-    //   }
-    // )
+
     return (
-      <div>
+      <div style={containerStyle}>
         <GoogleMap
           mapContainerStyle={mapStyle}
           options={mapOptions}
-        // onLoad={onLoad}
         >
           <Marker
             position={mapOptions.center}
@@ -65,23 +81,26 @@ const Map = props => {
             options={streetViewOptions}
           />
         </GoogleMap>
-        <div>
+        <Fab
+          color="primary"
+          aria-label="add"
+          style={buttonStyle}
+          onClick={() => isStreetView ? setIsStreetView(false) : setIsStreetView(true)}
+        >
+          {isStreetView
+            ? <MapIcon />
+            : <StreetviewIcon />
+          }
+        </Fab>
+        {/* <div>
           <button
             type='button'
             style={buttonStyle}
-            onClick={() => StreetViewPanorama()}
-          >
-            保存
-            </button>
-          <button
-            type='button'
-            style={buttonStyle}
-            // onClick={() => zIndex === 1 ? setZIndex(-1) : setZIndex(1)}
             onClick={() => isStreetView ? setIsStreetView(false) : setIsStreetView(true)}
           >
             切り替え
             </button>
-        </div>
+        </div> */}
       </div>
     )
   }

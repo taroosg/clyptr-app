@@ -5,7 +5,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background: red;
+  background: #282c34;
+}
+html, body{
+  min-height: 100vh;
 }
 
 code {

@@ -1,37 +1,51 @@
 import React, { useContext, useState } from 'react';
 import { AuthContext } from '../contexts/auth'
+import axios from 'axios';
 import Map from '../components/Map';
-import LoadingOverlay from 'react-loading-overlay';
-import { GoogleMap, useLoadScript, StreetViewService } from '@react-google-maps/api';
+import { useLoadScript, StreetViewService } from '@react-google-maps/api';
+import Loading from '../components/Loading';
 
+import { makeStyles } from '@material-ui/core/styles';
+import Fab from '@material-ui/core/Fab';
+import SaveIcon from '@material-ui/icons/Save';
+import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
 
 const Tour = () => {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MAP_API_KEY,
   })
-  const [position, setPosition] = useState(null)
+  const [position, setPosition] = useState(null);
   const [svs, setSvs] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const latArray = [...new Array(180).keys()].map(x => x - 90)
-  const lngArray = [...new Array(360).keys()].map(x => x - 180)
-
+  // ランダム座標生成
   const generateRndomLatLng = () => {
+    const latArray = [...new Array(180).keys()].map(x => x - 90)
+    const lngArray = [...new Array(360).keys()].map(x => x - 180)
     return {
       lat: latArray[~~Math.floor(Math.random() * latArray.length + 1)] + Math.random(),
       lng: lngArray[~~Math.floor(Math.random() * lngArray.length + 1)] + Math.random(),
     };
   }
 
-
-
+  // ストリートビューを探して見つけたらstateに保存
   const serchStreetView = streetViewService => {
     setPosition(null);
     setSvs(streetViewService);
     const randomLatlng = generateRndomLatLng();
-    // const svs = new google.maps.StreetViewService();
     streetViewService.getPanoramaByLocation(randomLatlng, 5000, (result, status) => {
       console.log(result)
-      // setResult({ result: result, status: status })
       if (status === 'OK') {
         //ストリートビューがあれば座標を設定
         setPosition(result.location.latLng);
@@ -43,16 +57,47 @@ const Tour = () => {
       }
     })
   }
-  // serchStreetView();
 
+  // 座標保存
+  const savePosition = async position => {
+    const inputText = prompt("Input Title!");
+    if (inputText === null || inputText === '') {
+      return false
+    } else {
+      setIsLoading(true);
+      const requestUrl = process.env.REACT_APP_API_URL;
+      const postdata = {
+        user: value.currentUser.uid,
+        position: position,
+        title: inputText,
+      }
+      const result = await axios.post(requestUrl, postdata);
+      console.log(result);
+      alert('Saved Successfly!');
+      setIsLoading(false);
+    }
+  }
 
-
-
-
+  // ユーザ
   const value = useContext(AuthContext);
+
+  // ボタンcss
+  const fabStyle = {
+    margin: '0 15%',
+  }
+
+  const buttonContainerStyle = {
+    position: 'absolute',
+    zIndex: 50,
+    bottom: '5%',
+    display: 'flex',
+    justifyContent: 'center',
+    width: '100vw',
+  }
+
   return (
-    <div>
-      <p onClick={() => serchStreetView(svs)}>Tour</p>
+    <div style={{ height: '100%' }}>
+      {/* <p onClick={() => serchStreetView(svs)}>Tour</p> */}
       {/* <p>{value.currentUser.uid}</p> */}
       {
         isLoaded
@@ -60,17 +105,63 @@ const Tour = () => {
           <StreetViewService
             onLoad={serchStreetView}
           />
-          : <p>loading...</p>
+          : <Loading
+            text='Now Loading...'
+          />
       }
       {
         !position
-          ? <LoadingOverlay
-            active={true}
-            spinner
-            text='Loading...'
+          ? <Loading
+            text='Now Loading...'
           />
-          : <Map
-            latlng={position}
+          :
+          <div style={{ height: '100%', position: 'relative' }}>
+            <Map
+              latlng={position}
+              height={'100%'}
+            />
+            <div style={buttonContainerStyle}>
+              <Fab
+                size="medium"
+                color="secondary"
+                aria-label="takeoff"
+                style={fabStyle}
+                onClick={() => serchStreetView(svs)}
+              >
+                <FlightTakeoffIcon />
+              </Fab>
+              <Fab
+                size="medium"
+                color="secondary"
+                aria-label="save"
+                style={fabStyle}
+                onClick={() => savePosition(position)}
+              >
+                <SaveIcon />
+              </Fab>
+
+              {/* <button
+                type='button'
+                style={buttonStyle}
+                onClick={() => serchStreetView(svs)}
+              >
+                もう一回
+            </button> */}
+              {/* <button
+                type='button'
+                style={buttonStyle}
+                onClick={() => savePosition(position)}
+              >
+                保存
+            </button> */}
+            </div>
+          </div>
+      }
+      {
+        !isLoading
+          ? ''
+          : <Loading
+            text='Now Loading...'
           />
       }
     </div>

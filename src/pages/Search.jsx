@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/auth'
 import axios from 'axios';
 import ItemList from '../components/ItemList';
+import Loading from '../components/Loading';
 
 const Search = () => {
   const value = useContext(AuthContext);
@@ -13,15 +14,20 @@ const Search = () => {
     return result;
   }
   useEffect(() => {
-    const result = getDataFromAPI?.().then(response => setData(response));
+    const result = getDataFromAPI?.().then(response => setData(response.data));
   }, [])
   return (
     <div>
-      <p>Search</p>
-      <p>{value.currentUser.uid}</p>
-      <ItemList
-        data={data?.data}
-      />
+      {
+        !data
+          ? <Loading
+            text='Now Loading...'
+          />
+          : <ItemList
+            data={data}
+            setData={setData}
+          />
+      }
     </div>
   );
 }
