@@ -8,6 +8,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import LocalCafeRoundedIcon from '@material-ui/icons/LocalCafeRounded';
 
 import { AuthContext } from '../contexts/auth'
 
@@ -79,6 +80,17 @@ export default function MenuAppBar() {
           <Typography variant="h6" className={classes.title}>
             CLYPTR
           </Typography>
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="menu-appbar"
+            aria-haspopup="true"
+            color="inherit"
+            component={Link}
+            to="/mypage"
+          >
+            <LocalCafeRoundedIcon />
+          </IconButton>
+
         </Toolbar>
       </AppBar>
     </div>

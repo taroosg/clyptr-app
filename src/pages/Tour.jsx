@@ -84,11 +84,11 @@ const Tour = () => {
   // ボタンcss
   const fabStyle = {
     margin: '0 15%',
+    zIndex: 50,
   }
 
   const buttonContainerStyle = {
     position: 'absolute',
-    zIndex: 50,
     bottom: '5%',
     display: 'flex',
     justifyContent: 'center',
@@ -126,7 +126,7 @@ const Tour = () => {
                 color="secondary"
                 aria-label="takeoff"
                 style={fabStyle}
-                onClick={() => serchStreetView(svs)}
+                onClick={() => window.confirm('Go to next??') ? serchStreetView(svs) : false}
               >
                 <FlightTakeoffIcon />
               </Fab>

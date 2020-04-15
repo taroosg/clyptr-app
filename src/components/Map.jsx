@@ -39,9 +39,14 @@ const Map = props => {
     motionTrackingControl: true,
     enableCloseButton: false,
     linksControl: false,
-    panControl: false,
+    panControlOptions: false,
     fullscreenControl: false,
-    // zoomControl: false,
+    zoomControl: false,
+    zoom: 0,
+    showRoadLabels: false,
+    clickToGo: false,
+    addressControl: false,
+    addressControlOptions: false,
   }
 
   const [isStreetView, setIsStreetView] = useState(true);

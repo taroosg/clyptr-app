@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { AuthContext } from '../contexts/auth';
 import axios from 'axios';
 import Loading from './Loading';
@@ -7,12 +7,12 @@ import { makeStyles } from '@material-ui/core/styles';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
-import Icon from '@material-ui/core/Icon';
 import MapModal from './MapModal';
+import StarRoundedIcon from '@material-ui/icons/StarRounded';
+import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
@@ -35,6 +35,9 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     color: 'rgba(255, 255, 255, 0.54)',
+  },
+  activeIcon: {
+    color: '#F39800',
   },
 }));
 
@@ -63,9 +66,10 @@ const ItemList = props => {
   // value.currentUser.uid
   // console.log(value)
   const [isLoading, setIsLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [requestPosition, setRequestPosition] = useState(false);
+  const [requestPosition, setRequestPosition] = useState(null);
 
+  // モーダル管理
+  const [modalOpen, setModalOpen] = useState(false);
   const handleModalOpen = position => {
     setRequestPosition(position)
     setModalOpen(true);
@@ -75,6 +79,7 @@ const ItemList = props => {
     setModalOpen(false);
   };
 
+  // データ更新関数
   const requestUpdate = async (index, docId, newData) => {
     setIsLoading(true);
     const requestUrl = process.env.REACT_APP_API_URL;
@@ -89,7 +94,7 @@ const ItemList = props => {
     setIsLoading(false);
   }
 
-
+  // データ削除関数
   const deleteData = async (index, docId) => {
     setIsLoading(true);
     const requestUrl = process.env.REACT_APP_API_URL;
@@ -98,6 +103,43 @@ const ItemList = props => {
     props.setData(newDataArray);
     alert('Deleted Successfly!');
     setIsLoading(false);
+  }
+
+  // フォロー処理関連
+  // フォローリスト取得関数
+  const [followList, setFollowList] = useState([]);
+  const getFollowListFromApi = async uid => {
+    const requestUrl = process.env.REACT_APP_API_URL;
+    const result = await axios.get(`${requestUrl}/followlist/${uid}`);
+    setFollowList(result.data)
+  }
+  useEffect(() => {
+    const result = getFollowListFromApi(value.currentUser.uid);
+  }, [])
+
+  // フォローリクエスト
+  const requestFollow = async userId => {
+    console.log(userId)
+    const users = {
+      follow: value.currentUser.uid,
+      follower: userId
+    }
+    const requestUrl = process.env.REACT_APP_API_URL;
+    const result = await axios.post(`${requestUrl}/follow/`, users);
+    console.log(result);
+    setFollowList([...followList, userId]);
+  }
+
+  // アンフォローリクエスト
+  const requestUnfollow = async userId => {
+    const users = {
+      follow: value.currentUser.uid,
+      follower: userId
+    }
+    const requestUrl = process.env.REACT_APP_API_URL;
+    const result = await axios.post(`${requestUrl}/unfollow/`, users);
+    console.log(result);
+    setFollowList([...followList].filter(x => x !== userId));
   }
 
   return (
@@ -143,14 +185,26 @@ const ItemList = props => {
                   subtitle={<span>by: {x.data.user}</span>}
                   actionIcon={
                     x.data.user !== value.currentUser.uid
-                      ? ''
+                      ? followList.includes?.(x.data.user)
+                        ? <IconButton
+                          className={classes.activeIcon}
+                          onClick={() => window.confirm('Unfollow this user??') ? requestUnfollow(x.data.user) : false}
+                        >
+                          <StarRoundedIcon />
+                        </IconButton>
+                        : <IconButton
+                          className={classes.icon}
+                          onClick={() => window.confirm('Follow this user??') ? requestFollow(x.data.user) : false}
+                        >
+                          <StarBorderRoundedIcon />
+                        </IconButton>
                       :
                       <div>
                         <IconButton
                           aria-label={`info about ${x.data.title}`}
                           className={classes.icon}
                           onClick={e => {
-                            const inputText = prompt("Input New Title!", x.data.title);
+                            const inputText = prompt("Input new title!", x.data.title);
                             if (inputText === null || inputText === '') {
                               return false
                             } else {
@@ -164,7 +218,7 @@ const ItemList = props => {
                         <IconButton
                           aria-label={`info about ${x.data.title}`}
                           className={classes.icon}
-                          onClick={() => window.confirm('Delete Item??') ? deleteData(index, x.id) : false}
+                          onClick={() => window.confirm('Delete item??') ? deleteData(index, x.id) : false}
                         >
                           <ClearIcon />
                         </IconButton>

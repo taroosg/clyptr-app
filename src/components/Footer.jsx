@@ -32,7 +32,7 @@ const Footer = props => {
           label="Home"
           icon={<HomeIcon />}
           component={Link}
-          to='/mypage'
+          to='/'
         />
         <BottomNavigationAction
           label="Tour"
