@@ -30,8 +30,6 @@ const Timeline = () => {
             mypage={false}
           />
       }
-      {/* <p>Mypage</p>
-      <p>{value.currentUser.uid}</p> */}
     </div>
   );
 }

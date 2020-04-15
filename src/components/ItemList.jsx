@@ -8,11 +8,11 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
-import EditIcon from '@material-ui/icons/Edit';
-import ClearIcon from '@material-ui/icons/Clear';
 import MapModal from './MapModal';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
+
+import Mymenu from './Mymenu';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
@@ -199,30 +199,13 @@ const ItemList = props => {
                           <StarBorderRoundedIcon />
                         </IconButton>
                       :
-                      <div>
-                        <IconButton
-                          aria-label={`info about ${x.data.title}`}
-                          className={classes.icon}
-                          onClick={e => {
-                            const inputText = prompt("Input new title!", x.data.title);
-                            if (inputText === null || inputText === '') {
-                              return false
-                            } else {
-                              console.log(inputText)
-                              requestUpdate(index, x.id, inputText)
-                            }
-                          }}
-                        >
-                          <EditIcon />
-                        </IconButton>
-                        <IconButton
-                          aria-label={`info about ${x.data.title}`}
-                          className={classes.icon}
-                          onClick={() => window.confirm('Delete item??') ? deleteData(index, x.id) : false}
-                        >
-                          <ClearIcon />
-                        </IconButton>
-                      </div>
+                      <Mymenu
+                        classes={classes}
+                        x={x}
+                        index={index}
+                        requestUpdate={requestUpdate}
+                        deleteData={deleteData}
+                      />
                   }
                 />
               </GridListTile>

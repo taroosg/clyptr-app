@@ -1,22 +1,9 @@
 import React, { useState } from 'react'
 import { GoogleMap, useLoadScript, Marker, StreetViewPanorama } from '@react-google-maps/api'
-import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 
 import MapIcon from '@material-ui/icons/Map';
 import StreetviewIcon from '@material-ui/icons/Streetview';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
-
 
 const Map = props => {
   const { isLoaded, loadError } = useLoadScript({
@@ -24,7 +11,6 @@ const Map = props => {
   })
 
   const mapOptions = {
-    // center: { "lat": 43.9332315, "lng": 39.91355580000004 },
     center: props.latlng,
     zoom: 6,
     mapTypeId: 'terrain',
@@ -32,6 +18,7 @@ const Map = props => {
     rotateControl: false,
     fullscreenControl: false,
     scaleControl: true,
+    zoomControl: false,
   }
 
   const streetViewOptions = {

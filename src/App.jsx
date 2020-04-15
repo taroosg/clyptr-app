@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles';
-import orange from '@material-ui/core/colors/orange';
+// import orange from '@material-ui/core/colors/orange';
 
 import { AuthProvider } from './contexts/auth';
 

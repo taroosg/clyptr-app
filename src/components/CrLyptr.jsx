@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { BrowserRouter, Switch, Route, Link } from 'react-router-dom';
+import React from 'react'
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Mypage from '../pages/Mypage';
 import Tour from '../pages/Tour';
 import Timeline from '../pages/Timeline';
@@ -7,23 +7,10 @@ import Search from '../pages/Search';
 import Header from './Header';
 import Footer from './Footer';
 
-import { AuthContext } from '../contexts/auth'
-import zIndex from '@material-ui/core/styles/zIndex';
-
 const Clyptr = props => {
-  const { signout } = useContext(AuthContext)
   return (
     <BrowserRouter className="App">
       <Header />
-      {/* <header className="App-header">
-        <p>
-          <Link to='/mypage'>Mypage</Link>
-        </p>
-        <p>clyptr</p>
-        <p onClick={() => window.confirm('Sign Out??') ? signout() : false}>
-          Signout
-        </p>
-      </header> */}
       <main className="App-main">
         <Switch>
           <Route exact path='/' component={Timeline} />

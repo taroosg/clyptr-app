@@ -1,11 +1,9 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { AuthContext } from '../contexts/auth'
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ItemList from '../components/ItemList';
 import Loading from '../components/Loading';
 
 const Search = () => {
-  const value = useContext(AuthContext);
   const [data, setData] = useState(null);
 
   const getDataFromAPI = async () => {

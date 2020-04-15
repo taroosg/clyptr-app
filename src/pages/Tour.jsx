@@ -5,24 +5,12 @@ import Map from '../components/Map';
 import { useLoadScript, StreetViewService } from '@react-google-maps/api';
 import Loading from '../components/Loading';
 
-import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import SaveIcon from '@material-ui/icons/Save';
 import FlightTakeoffIcon from '@material-ui/icons/FlightTakeoff';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '& > *': {
-      margin: theme.spacing(1),
-    },
-  },
-  extendedIcon: {
-    marginRight: theme.spacing(1),
-  },
-}));
-
 const Tour = () => {
-  const { isLoaded, loadError } = useLoadScript({
+  const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_MAP_API_KEY,
   })
   const [position, setPosition] = useState(null);
@@ -139,21 +127,6 @@ const Tour = () => {
               >
                 <SaveIcon />
               </Fab>
-
-              {/* <button
-                type='button'
-                style={buttonStyle}
-                onClick={() => serchStreetView(svs)}
-              >
-                もう一回
-            </button> */}
-              {/* <button
-                type='button'
-                style={buttonStyle}
-                onClick={() => savePosition(position)}
-              >
-                保存
-            </button> */}
             </div>
           </div>
       }
