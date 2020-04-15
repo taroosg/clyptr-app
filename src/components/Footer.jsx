@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core/styles';
 import BottomNavigation from '@material-ui/core/BottomNavigation';
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction';
-import RestoreIcon from '@material-ui/icons/Restore';
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import HomeIcon from '@material-ui/icons/Home';
+import PageviewIcon from '@material-ui/icons/Pageview';
+// import FavoriteIcon from '@material-ui/icons/Favorite';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 
 const useStyles = makeStyles({
@@ -29,19 +30,19 @@ const Footer = props => {
       >
         <BottomNavigationAction
           label="Home"
-          icon={<RestoreIcon />}
+          icon={<HomeIcon />}
           component={Link}
-          to='/'
+          to='/mypage'
         />
         <BottomNavigationAction
           label="Tour"
-          icon={<FavoriteIcon />}
+          icon={<LocationOnIcon />}
           component={Link}
           to='/tour'
         />
         <BottomNavigationAction
-          label="Find"
-          icon={<LocationOnIcon />}
+          label="Garally"
+          icon={<PageviewIcon />}
           component={Link}
           to='/search'
         />

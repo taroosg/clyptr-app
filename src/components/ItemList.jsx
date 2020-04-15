@@ -12,6 +12,7 @@ import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import ClearIcon from '@material-ui/icons/Clear';
 import Icon from '@material-ui/core/Icon';
+import MapModal from './MapModal';
 
 import withWidth, { isWidthUp } from '@material-ui/core/withWidth';
 
@@ -62,6 +63,17 @@ const ItemList = props => {
   // value.currentUser.uid
   // console.log(value)
   const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [requestPosition, setRequestPosition] = useState(false);
+
+  const handleModalOpen = position => {
+    setRequestPosition(position)
+    setModalOpen(true);
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
 
   const requestUpdate = async (index, docId, newData) => {
     setIsLoading(true);
@@ -120,8 +132,12 @@ const ItemList = props => {
                 </GridListTile>
             }
             {props.data?.map((x, index) => (
-              <GridListTile cols={1} key={index} style={{ height: 300 }}>
-                <img src={`https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${x.data.position.lat},${x.data.position.lng}&key=AIzaSyA1Xd3oiuXW_0dQxAi46m1GBzqnDnw8Xvo`} alt={x.data.title} />
+              <GridListTile cols={1} key={index} style={{ height: 300 }} >
+                <img
+                  src={`https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${x.data.position.lat},${x.data.position.lng}&key=${process.env.REACT_APP_MAP_API_KEY}`}
+                  alt={x.data.title}
+                  onClick={() => { handleModalOpen(x.data.position) }}
+                />
                 <GridListTileBar
                   title={x.data.title}
                   subtitle={<span>by: {x.data.user}</span>}
@@ -133,7 +149,7 @@ const ItemList = props => {
                         <IconButton
                           aria-label={`info about ${x.data.title}`}
                           className={classes.icon}
-                          onClick={() => {
+                          onClick={e => {
                             const inputText = prompt("Input New Title!", x.data.title);
                             if (inputText === null || inputText === '') {
                               return false
@@ -196,6 +212,12 @@ const ItemList = props => {
         //   )}
         // </ul>
       }
+      <MapModal
+        modalOpen={modalOpen}
+        handleModalOpen={handleModalOpen}
+        handleModalClose={handleModalClose}
+        requestPosition={requestPosition}
+      />
       {
         !isLoading
           ? ''
