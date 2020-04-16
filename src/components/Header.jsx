@@ -81,7 +81,7 @@ export default function MenuAppBar() {
             aria-haspopup="true"
             color="inherit"
             component={Link}
-            to="/mypage"
+            to="/coffee"
           >
             <LocalCafeRoundedIcon />
           </IconButton>

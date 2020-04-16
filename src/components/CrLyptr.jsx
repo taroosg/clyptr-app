@@ -4,6 +4,7 @@ import Mypage from '../pages/Mypage';
 import Tour from '../pages/Tour';
 import Timeline from '../pages/Timeline';
 import Search from '../pages/Search';
+import Coffee from '../pages/Coffee';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -17,6 +18,7 @@ const Clyptr = props => {
           <Route exact path='/tour' component={Tour} />
           <Route exact path='/mypage' component={Mypage} />
           <Route exact path='/search' component={Search} />
+          <Route exact path='/coffee' component={Coffee} />
         </Switch>
       </main>
       <Footer />

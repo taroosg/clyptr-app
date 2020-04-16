@@ -119,6 +119,7 @@ const ItemList = props => {
 
   // フォローリクエスト
   const requestFollow = async userId => {
+    setIsLoading(true);
     console.log(userId)
     const users = {
       follow: value.currentUser.uid,
@@ -128,10 +129,12 @@ const ItemList = props => {
     const result = await axios.post(`${requestUrl}/follow/`, users);
     console.log(result);
     setFollowList([...followList, userId]);
+    setIsLoading(false);
   }
 
   // アンフォローリクエスト
   const requestUnfollow = async userId => {
+    setIsLoading(true);
     const users = {
       follow: value.currentUser.uid,
       follower: userId
@@ -140,6 +143,7 @@ const ItemList = props => {
     const result = await axios.post(`${requestUrl}/unfollow/`, users);
     console.log(result);
     setFollowList([...followList].filter(x => x !== userId));
+    setIsLoading(false);
   }
 
   return (
