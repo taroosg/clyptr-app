@@ -37,7 +37,6 @@ const Mymenu = props => {
           onClick={() => {
             const inputText = prompt("Input new title!", props.x.data.title);
             if (inputText !== null && inputText !== '') {
-              console.log(inputText)
               props.requestUpdate(props.index, props.x.id, inputText)
             }
             handleClose();

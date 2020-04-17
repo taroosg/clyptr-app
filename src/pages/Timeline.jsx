@@ -11,7 +11,6 @@ const Timeline = () => {
   const getDataFromAPI = async () => {
     const requestUrl = process.env.REACT_APP_API_URL;
     const result = await axios.get(`${requestUrl}/followitem/${value.currentUser.uid}`);
-    console.log(result);
     return result;
   }
   useEffect(() => {

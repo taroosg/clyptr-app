@@ -33,14 +33,11 @@ const Tour = () => {
     setSvs(streetViewService);
     const randomLatlng = generateRndomLatLng();
     streetViewService.getPanoramaByLocation(randomLatlng, 5000, (result, status) => {
-      console.log(result)
       if (status === 'OK') {
         //ストリートビューがあれば座標を設定
         setPosition(result.location.latLng);
-        console.log('done');
       } else {
         // なければやり直し
-        console.log('ng');
         serchStreetView(streetViewService);
       }
     })
@@ -60,7 +57,6 @@ const Tour = () => {
         title: inputText,
       }
       const result = await axios.post(requestUrl, postdata);
-      console.log(result);
       alert('Saved Successfly!');
       setIsLoading(false);
     }

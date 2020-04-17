@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MapModal from './MapModal';
 import StarRoundedIcon from '@material-ui/icons/StarRounded';
 import StarBorderRoundedIcon from '@material-ui/icons/StarBorderRounded';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 import Mymenu from './Mymenu';
 
@@ -120,14 +121,12 @@ const ItemList = props => {
   // フォローリクエスト
   const requestFollow = async userId => {
     setIsLoading(true);
-    console.log(userId)
     const users = {
       follow: value.currentUser.uid,
       follower: userId
     }
     const requestUrl = process.env.REACT_APP_API_URL;
     const result = await axios.post(`${requestUrl}/follow/`, users);
-    console.log(result);
     setFollowList([...followList, userId]);
     setIsLoading(false);
   }
@@ -141,7 +140,6 @@ const ItemList = props => {
     }
     const requestUrl = process.env.REACT_APP_API_URL;
     const result = await axios.post(`${requestUrl}/unfollow/`, users);
-    console.log(result);
     setFollowList([...followList].filter(x => x !== userId));
     setIsLoading(false);
   }
@@ -174,9 +172,19 @@ const ItemList = props => {
             }
             {props.data?.map((x, index) => (
               <GridListTile cols={1} key={index} style={{ height: 300 }} >
-                <img
-                  src={`https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${x.data.position.lat},${x.data.position.lng}&key=${process.env.REACT_APP_MAP_API_KEY}`}
+                {/* <img
+                    src={`https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${x.data.position.lat},${x.data.position.lng}&key=${process.env.REACT_APP_MAP_API_KEY}`}
+                    alt={x.data.title}
+                    onClick={() => { handleModalOpen(x.data.position) }}
+                  /> */}
+                <LazyLoadImage
+                  src={`https://maps.googleapis.com/maps/api/streetview?size=600x600&location=${x.data.position.lat},${x.data.position.lng}&key=${process.env.REACT_APP_MAP_API_KEY}`}
                   alt={x.data.title}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                  }}
                   onClick={() => { handleModalOpen(x.data.position) }}
                 />
                 <GridListTileBar
