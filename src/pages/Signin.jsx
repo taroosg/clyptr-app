@@ -18,7 +18,7 @@ const uiConfig = {
   ],
 }
 const defaultProps = {
-  bgcolor: 'background.paper',
+  // bgcolor: 'background.paper',
   m: 1,
   style: {
     width: '100vw',

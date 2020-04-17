@@ -169,11 +169,6 @@ const ItemList = props => {
                   <GridListTileBar
                     title={`Name:${value.currentUser.displayName}`}
                     subtitle={<span>iD: {value.currentUser.uid}</span>}
-                  // actionIcon={
-                  //   <IconButton aria-label={`info about ${x.data.title}`} className={classes.icon}>
-                  //     <EditIcon />
-                  //   </IconButton>
-                  // }
                   />
                 </GridListTile>
             }
@@ -216,42 +211,6 @@ const ItemList = props => {
             ))}
           </GridList>
         </div>
-
-
-
-
-
-
-
-
-        // <ul>
-        //   {props.data?.map((x, index) =>
-        //     <li key={index}>
-        //       <ul>
-        //         <li onClick={() => {
-        //           const inputText = prompt("Input New Title!", x.data.title);
-        //           if (inputText === null || inputText === '') {
-        //             return false
-        //           } else {
-        //             console.log(inputText)
-        //             requestUpdate(index, x.id, inputText)
-        //           }
-        //         }
-        //         }>edit</li>
-        //         <li onClick={() => window.confirm('Delete Item??') ? deleteData(index, x.id) : false}>
-        //           delete
-        //         </li>
-        //         <li>{x.data.user}</li>
-        //         <li>{x.id}</li>
-        //         <li>{x.data.timestamp._seconds}</li>
-        //         <li>{x.data.title}</li>
-        //         {/* <li>{JSON.stringify(x.data.position)}</li> */}
-        //         <li><img src={`https://maps.googleapis.com/maps/api/streetview?size=640x640&location=${x.data.position.lat},${x.data.position.lng}&key=AIzaSyA1Xd3oiuXW_0dQxAi46m1GBzqnDnw8Xvo`} alt="" /></li>
-        //         <li>{x.data.address}</li>
-        //       </ul>
-        //     </li>
-        //   )}
-        // </ul>
       }
       <MapModal
         modalOpen={modalOpen}

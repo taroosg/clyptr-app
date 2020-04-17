@@ -29,8 +29,11 @@ const Map = props => {
     panControlOptions: false,
     fullscreenControl: false,
     zoomControl: false,
-    zoom: 0,
-    showRoadLabels: false,
+    pov: {
+      heading: 34,
+      pitch: 10,
+      zoom: 0,
+    }, showRoadLabels: false,
     clickToGo: false,
     addressControl: false,
     addressControlOptions: false,
