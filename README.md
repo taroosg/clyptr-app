@@ -6,7 +6,7 @@
 
 ## DEMO
 
-- [CLYPTR](https://clyptr.netlify.app/)
+- [CLYPTR](https://clyptr.com)
 
 ## How To use
 
