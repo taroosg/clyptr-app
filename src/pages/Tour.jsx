@@ -22,8 +22,8 @@ const Tour = () => {
     const latArray = [...new Array(180).keys()].map(x => x - 90)
     const lngArray = [...new Array(360).keys()].map(x => x - 180)
     return {
-      lat: latArray[~~Math.floor(Math.random() * latArray.length + 1)] + Math.random(),
-      lng: lngArray[~~Math.floor(Math.random() * lngArray.length + 1)] + Math.random(),
+      lat: latArray[~~(Math.random() * latArray.length + 1)] + Math.random(),
+      lng: lngArray[~~(Math.random() * lngArray.length + 1)] + Math.random(),
     };
   }
 
